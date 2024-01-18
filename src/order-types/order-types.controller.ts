@@ -4,7 +4,7 @@ import {
   Post,
   Body,
   Param,
-  Put,
+  Patch,
   Delete,
   ParseIntPipe,
 } from '@nestjs/common';
@@ -31,7 +31,7 @@ export class OrderTypeController {
     return this.orderTypeService.findOrderTypeById(id);
   }
 
-  @Put(':id')
+  @Patch(':id')
   update(
     @Param('id', ParseIntPipe) id: number,
     @Body() updateDto: UpdateOrderTypeDto,

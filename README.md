@@ -72,13 +72,64 @@ Nest is an MIT-licensed open source project. It can grow thanks to the sponsors 
 
 Nest is [MIT licensed](LICENSE).
 
-6. Brand
-   Description: Represents the brand or vendor associated with a meal.
-   Key Fields:
-   id, name: Unique identifier and name of the brand.
-   Functionality: This model is used to categorize meals by their respective brands or vendors, allowing for brand-specific menus or offerings.
-7. OrderType
-   Description: Defines the type or category of an order.
-   Key Fields:
-   id, name: Unique identifier and name of the order type.
-   Functionality: Used to classify orders, possibly based on payment method (e.g., cash, card), order source (e.g., online, in-person), or other categorizations.
+async createCalculatedOrder(
+    createDto: CreateCalculatedOrderDto,
+  ): Promise<any> {
+    // Initial total amount calculation
+    let totalAmount =
+      createDto.serviceCharge +
+      (createDto.freeDelivery ? 0 : createDto.deliveryFee);
+
+    // Prepare the graph for insertion
+    const graph = {
+      totalAmount: totalAmount, // will be updated later
+      deliveryFee: createDto.deliveryFee,
+      serviceCharge: createDto.serviceCharge,
+      freeDelivery: createDto.freeDelivery,
+      addressDetails: createDto.addressDetails,
+      meals: [], // Placeholder for meals and addons
+    };
+
+    for (const mealDetail of createDto.mealDetails) {
+      const meal = await Meal.query().findById(mealDetail.mealId);
+      if (!meal) {
+        throw new NotFoundException(
+          `Meal with ID ${mealDetail.mealId} not found`,
+        );
+      }
+      totalAmount += meal.amount * mealDetail.quantity;
+
+      const mealWithAddons = {
+        id: meal.id, // Assuming id is needed for relation mapping
+        calculated_orders_meals: {
+          quantity: mealDetail.quantity,
+          addons: [], // Placeholder for addons
+        },
+      };
+
+      for (const addonDetail of mealDetail.addons) {
+        const addon = await Addon.query().findById(addonDetail.addonId);
+        if (!addon) {
+          throw new NotFoundException(
+            `Addon with ID ${addonDetail.addonId} not found`,
+          );
+        }
+        totalAmount += addon.amount;
+
+        mealWithAddons.calculated_orders_meals.addons.push({ id: addon.id });
+      }
+
+      graph.meals.push(mealWithAddons);
+    }
+
+    graph.totalAmount = totalAmount; // Update the total amount
+
+    // Insert the graph
+    const createdCalculatedOrder =
+      await CalculatedOrder.query().insertGraph(graph);
+
+    // Fetch and return the newly created order with related data
+    return CalculatedOrder.query()
+      .findById(createdCalculatedOrder.id)
+      .withGraphFetched('meals');
+  }

@@ -7,7 +7,6 @@ import { UpdateOrderLogDto } from './dto/update-order-log.dto';
 @Injectable()
 export class OrderLogService {
   async createOrderLog(orderId: number, createDto: CreateOrderLogDto) {
-    // Check if the order exists
     const orderExists = await Order.query().findById(orderId);
     if (!orderExists) {
       throw new NotFoundException(`Order with ID ${orderId} not found`);
@@ -20,7 +19,6 @@ export class OrderLogService {
   }
 
   async findAllOrderLogsForOrder(orderId: number) {
-    // Check if the order exists
     const orderExists = await Order.query().findById(orderId);
     if (!orderExists) {
       throw new NotFoundException(`Order with ID ${orderId} not found`);
@@ -30,7 +28,6 @@ export class OrderLogService {
   }
 
   async findOrderLogById(orderId: number, logId: number) {
-    // Check if the order exists
     const orderExists = await Order.query().findById(orderId);
     if (!orderExists) {
       throw new NotFoundException(`Order with ID ${orderId} not found`);
@@ -53,7 +50,6 @@ export class OrderLogService {
     logId: number,
     updateDto: UpdateOrderLogDto,
   ) {
-    // Check if the order and order log exist
     const orderExists = await Order.query().findById(orderId);
     if (!orderExists) {
       throw new NotFoundException(`Order with ID ${orderId} not found`);
@@ -70,7 +66,6 @@ export class OrderLogService {
   }
 
   async deleteOrderLog(orderId: number, logId: number) {
-    // Check if the order and order log exist
     const orderExists = await Order.query().findById(orderId);
     if (!orderExists) {
       throw new NotFoundException(`Order with ID ${orderId} not found`);

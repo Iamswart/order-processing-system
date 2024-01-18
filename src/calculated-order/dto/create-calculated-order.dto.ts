@@ -1,7 +1,6 @@
 import {
   IsArray,
   IsBoolean,
-  IsDecimal,
   IsNotEmpty,
   IsNumber,
   IsObject,
@@ -42,16 +41,13 @@ class MealDetailsDto {
 }
 
 export class CreateCalculatedOrderDto {
-  @IsDecimal()
-  totalAmount: number;
-
   @IsBoolean()
   freeDelivery: boolean;
 
-  @IsDecimal()
+  @IsNumber()
   deliveryFee: number;
 
-  @IsDecimal()
+  @IsNumber()
   serviceCharge: number;
 
   @IsObject()

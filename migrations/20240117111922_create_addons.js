@@ -5,7 +5,7 @@
 exports.up = function (knex) {
   return knex.schema.createTable('addons', (table) => {
     table.increments('id').primary();
-    table.decimal('amount', 14, 2).notNullable(); // Adjust precision and scale as needed
+    table.decimal('amount', 14, 2).notNullable();
     table
       .integer('mealId')
       .unsigned()
@@ -23,9 +23,7 @@ exports.up = function (knex) {
     table.dateTime('createdAt').defaultTo(knex.fn.now());
     table.dateTime('updatedAt').defaultTo(knex.fn.now());
     table.decimal('internalProfit', 14, 2);
-    table.integer('minSelectionNo').notNullable(); // Assuming this is a numeric field
-
-    // Include other fields and relations as needed
+    table.integer('minSelectionNo').notNullable();
   });
 };
 

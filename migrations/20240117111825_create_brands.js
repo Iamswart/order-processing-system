@@ -4,10 +4,10 @@
  */
 exports.up = function (knex) {
   return knex.schema.createTable('brands', (table) => {
-    table.increments('id').primary(); // Auto-incrementing primary key
-    table.string('name').notNullable(); // Brand name, cannot be null
-    table.dateTime('createdAt').defaultTo(knex.fn.now()); // Timestamp for when the record was created
-    table.dateTime('updatedAt').defaultTo(knex.fn.now()); // Timestamp for when the record was last updated
+    table.increments('id').primary();
+    table.string('name').notNullable();
+    table.dateTime('createdAt').defaultTo(knex.fn.now());
+    table.dateTime('updatedAt').defaultTo(knex.fn.now());
   });
 };
 
@@ -16,5 +16,5 @@ exports.up = function (knex) {
  * @returns { Promise<void> }
  */
 exports.down = function (knex) {
-  return knex.schema.dropTable('brands'); // Drops the 'brands' table
+  return knex.schema.dropTable('brands');
 };

@@ -1,14 +1,12 @@
 import { Model } from 'objection';
 import OrderLog from './orderLog.model';
 import CalculatedOrder from './calculatedOrder.model';
-// import Meal from './meal.model';
 import OrderType from './orderType.model';
 import { User } from './user.model';
 
 export default class Order extends Model {
   static tableName = 'orders';
 
-  // Define properties based on the sample data
   id!: number;
   userId!: number;
   completed!: boolean;
@@ -54,7 +52,6 @@ export default class Order extends Model {
   prevPrice?: string;
   orderTypeId!: number;
 
-  // Relationship mappings
   static relationMappings = {
     logs: {
       relation: Model.HasManyRelation,
@@ -72,19 +69,6 @@ export default class Order extends Model {
         to: 'calculated_orders.id',
       },
     },
-    // meals: {
-    //   relation: Model.ManyToManyRelation,
-    //   modelClass: Meal,
-    //   join: {
-    //     from: 'orders.id',
-    //     // Assuming there's a junction table for orders and meals
-    //     through: {
-    //       from: 'orders_meals.orderId',
-    //       to: 'orders_meals.mealId',
-    //     },
-    //     to: 'meals.id',
-    //   },
-    // },
     orderType: {
       relation: Model.BelongsToOneRelation,
       modelClass: OrderType,
@@ -109,6 +93,5 @@ export default class Order extends Model {
         to: 'users.id',
       },
     },
-    // Additional relations can be defined
   };
 }

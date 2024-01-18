@@ -11,7 +11,6 @@ import { isNameUnique } from '../common/validations/isUnique.validations';
 @Injectable()
 export class OrderTypeService {
   async createOrderType(createDto: CreateOrderTypeDto) {
-    // Check if the name is unique
     const unique = await isNameUnique(OrderType, createDto.name);
     if (!unique) {
       throw new ConflictException(
@@ -35,7 +34,6 @@ export class OrderTypeService {
   }
 
   async updateOrderType(id: number, updateDto: UpdateOrderTypeDto) {
-    // Check if the name is unique, excluding the current id
     if (updateDto.name) {
       const unique = await isNameUnique(OrderType, updateDto.name, id);
       if (!unique) {

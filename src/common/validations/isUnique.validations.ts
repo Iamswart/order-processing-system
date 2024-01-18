@@ -4,12 +4,12 @@ export async function isNameUnique(
   model: typeof Model,
   name: string,
   excludeId?: number,
-  conditions: Record<string, any> = {}, // Now optional
+  conditions: Record<string, any> = {},
 ): Promise<boolean> {
   const query = model
     .query()
     .whereRaw('LOWER(name) = ?', name.toLowerCase())
-    .andWhere(conditions); // Applies additional conditions if provided
+    .andWhere(conditions);
 
   if (excludeId) {
     query.andWhereNot('id', excludeId);

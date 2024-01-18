@@ -4,14 +4,11 @@ import { AppModule } from './app.module';
 import { WinstonModule } from 'nest-winston';
 import { HttpExceptionFilter } from './http-exception.filter';
 import logger from './logger.module';
-// import { RequestLoggingMiddleware } from './requestLogging.middleware';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule, {
     logger: WinstonModule.createLogger({ instance: logger }),
   });
-
-  // app.use(new RequestLoggingMiddleware().use);
 
   app.enableCors();
 

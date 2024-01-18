@@ -39,13 +39,11 @@ export class AddonsService {
     id: number,
     updateAddonDto: UpdateAddonDto,
   ) {
-    // First, check if the meal exists
     const meal = await Meal.query().findById(mealId);
     if (!meal) {
       throw new NotFoundException(`Meal with ID ${mealId} not found`);
     }
 
-    // Then, find the addon by ID and ensure it is under the specified meal
     const addon = await Addon.query().where({ id, mealId }).first();
     if (!addon) {
       throw new NotFoundException(
@@ -53,7 +51,6 @@ export class AddonsService {
       );
     }
 
-    // Proceed with updating the addon
     return Addon.query().patchAndFetchById(id, updateAddonDto);
   }
 
