@@ -39,7 +39,7 @@ export default class Order extends Model {
   failedTripDetails?: object;
   boxNumber!: string;
   shelfId?: string;
-  orderTotalAmountHistory!: Array<{ time: string; totalAmount: number }>;
+  orderTotalAmountHistory!: string;
   scheduled!: boolean;
   confirmedById?: number;
   completedById?: number;
@@ -94,4 +94,8 @@ export default class Order extends Model {
       },
     },
   };
+
+  $beforeUpdate() {
+    this.updatedAt = new Date();
+  }
 }

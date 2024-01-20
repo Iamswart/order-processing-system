@@ -9,16 +9,21 @@ import {
   HttpCode,
   HttpStatus,
   ParseIntPipe,
+  UseGuards,
 } from '@nestjs/common';
 import { BrandsService } from './brands.service';
 import { CreateBrandDto } from './dto/create-brand.dto';
 import { UpdateBrandDto } from './dto/update-brand.dto';
+import { Roles } from 'src/auth/decorator';
+import { JwtAuthGuard, RolesGuard } from 'src/auth/guard';
 
 @Controller('brands')
+@UseGuards(JwtAuthGuard, RolesGuard)
 export class BrandsController {
   constructor(private readonly brandsService: BrandsService) {}
 
   @Post()
+  @Roles('ADMIN')
   @HttpCode(HttpStatus.CREATED)
   create(@Body() createBrandDto: CreateBrandDto) {
     return this.brandsService.createBrand(createBrandDto);
@@ -35,6 +40,7 @@ export class BrandsController {
   }
 
   @Patch(':id')
+  @Roles('ADMIN')
   update(
     @Param('id', ParseIntPipe) id: number,
     @Body() updateBrandDto: UpdateBrandDto,
@@ -43,6 +49,7 @@ export class BrandsController {
   }
 
   @Delete(':id')
+  @Roles('ADMIN')
   @HttpCode(HttpStatus.NO_CONTENT)
   remove(@Param('id', ParseIntPipe) id: number) {
     return this.brandsService.deleteBrandById(id);

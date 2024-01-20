@@ -112,10 +112,6 @@ export class CreateOrderDto {
   @IsString()
   shelfId?: string;
 
-  @IsOptional()
-  @IsJSON()
-  orderTotalAmountHistory?: Array<{ time: string; totalAmount: number }>;
-
   @IsBoolean()
   scheduled: boolean;
 

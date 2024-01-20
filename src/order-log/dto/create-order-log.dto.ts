@@ -1,9 +1,6 @@
-import { IsInt, IsNotEmpty, IsString, IsDate } from 'class-validator';
+import { IsNotEmpty, IsString, IsDate } from 'class-validator';
 
 export class CreateOrderLogDto {
-  @IsInt()
-  orderId: number;
-
   @IsDate()
   time: Date;
 
