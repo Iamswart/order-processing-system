@@ -24,7 +24,6 @@ export class BrandsController {
 
   @Post()
   @Roles('ADMIN')
-  @HttpCode(HttpStatus.CREATED)
   create(@Body() createBrandDto: CreateBrandDto) {
     return this.brandsService.createBrand(createBrandDto);
   }

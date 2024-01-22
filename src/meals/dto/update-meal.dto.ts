@@ -42,7 +42,7 @@ export class UpdateMealDto {
   itemType?: string;
 
   @IsOptional()
-  mealTags?: string[];
+  mealTags?: string;
 
   @IsOptional()
   @IsNumber()

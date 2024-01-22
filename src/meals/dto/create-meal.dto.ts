@@ -51,7 +51,7 @@ export class CreateMealDto {
   @IsOptional()
   @IsArray()
   @IsString({ each: true })
-  mealTags?: string[];
+  mealTags?: string;
 
   @IsOptional()
   @IsNumber()

@@ -17,7 +17,7 @@ export default class Meal extends Model {
   isCombo!: boolean;
   alcohol!: boolean;
   itemType!: string;
-  mealTags?: string[];
+  mealTags?: string;
   createdAt!: Date;
   updatedAt!: Date;
   isDeleted!: boolean;
