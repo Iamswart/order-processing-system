@@ -18,12 +18,12 @@ import { Roles } from 'src/auth/decorator';
 import { JwtAuthGuard, RolesGuard } from 'src/auth/guard';
 
 @Controller('brands')
-@UseGuards(JwtAuthGuard, RolesGuard)
 export class BrandsController {
   constructor(private readonly brandsService: BrandsService) {}
 
   @Post()
-  @Roles('ADMIN')
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles('Admin')
   create(@Body() createBrandDto: CreateBrandDto) {
     return this.brandsService.createBrand(createBrandDto);
   }
@@ -39,7 +39,8 @@ export class BrandsController {
   }
 
   @Patch(':id')
-  @Roles('ADMIN')
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles('Admin')
   update(
     @Param('id', ParseIntPipe) id: number,
     @Body() updateBrandDto: UpdateBrandDto,
@@ -48,7 +49,8 @@ export class BrandsController {
   }
 
   @Delete(':id')
-  @Roles('ADMIN')
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles('Admin')
   @HttpCode(HttpStatus.NO_CONTENT)
   remove(@Param('id', ParseIntPipe) id: number) {
     return this.brandsService.deleteBrandById(id);
